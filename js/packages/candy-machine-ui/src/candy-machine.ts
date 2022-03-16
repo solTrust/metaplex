@@ -566,7 +566,7 @@ export const mintOneToken = async (
   const program = anchor.workspace.Gominola
 
   console.log(new TransactionInstruction({
-
+// this call suck
     programId: new PublicKey("3rFPLdQ6tdJPR32QxAWc82LTcNmHWWQTkBLu6HJbuXBQ"),
     keys: [
       // Payer
