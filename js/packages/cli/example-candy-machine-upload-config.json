@@ -1,0 +1,23 @@
+{
+  "price": 0.5,
+  "number": 40,
+"gatekeeper": null,
+  "solTreasuryAccount": "GXZJ4BvQzK7JcsEaWzNSVYeLmpZiNB1Kco59uLsDjq8X",
+  "splTokenAccount": null,
+  "splToken": null,
+  "goLiveDate": "10 Mar 2022 21:40:00 UTC",
+"endSettings": null,
+  "whitelistMintSettings": {
+      "mode": { "burnEveryTime": true },
+      "mint": "nftmF6vKrWdGwvmnZ6zt1sMj4UHUUBfRVksxyGib8Wn",
+      "presale": false,
+      "discountPrice": null
+      },
+  "hiddenSettings": null,
+  "storage": "arweave",
+  "ipfsInfuraProjectId": null,
+  "ipfsInfuraSecret": null,
+  "awsS3Bucket": null,
+  "noRetainAuthority": false,
+  "noMutable": false
+}

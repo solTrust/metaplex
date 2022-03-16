@@ -1,0 +1,53 @@
+{
+  "name": "The Lion Cats BABY #14",
+  "symbol": "TLCB",
+  "description": "The Lion Cats BABIES is a low supply collection of 469 NFTs, GEN 2 of The Lion Cats collection. The only way to mint a Baby is to use our token : $imba, which is required for breeding and way more other cool things.",
+  "seller_fee_basis_points": 750,
+  "image": "13.gif",
+  "external_url": "https://thelioncats.com/",
+  "attributes": [
+    {
+      "trait_type": "BACKGROUND",
+      "value": "UNREVEALED"
+    },
+    {
+      "trait_type": "SKIN",
+      "value": "UNREVEALED"
+    },
+    {
+      "trait_type": "ACCESSORIES",
+      "value": "UNREVEALED"
+    },
+    {
+      "trait_type": "TOP",
+      "value": "UNREVEALED"
+    },
+    {
+      "trait_type": "EYES",
+      "value": "UNREVEALED"
+    },
+    {
+      "trait_type": "HEAD",
+      "value": "UNREVEALED"
+    }
+  ],
+    "collection": {
+    "name": "The Lion Cats Babies",
+    "family": "The Lion Cats Babies"
+  },
+  "properties": {
+    "files": [
+      {
+        "uri": "13.gif",
+        "type": "image/gif"
+      }
+    ],
+    "category": "image",
+    "creators": [
+      {
+        "address": "LionZyzspCV9LDqPvrhGiLGj59VScEYaf355aWQRbCf",
+        "share": 100
+      }
+    ]
+  }
+}
