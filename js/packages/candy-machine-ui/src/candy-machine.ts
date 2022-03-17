@@ -16,6 +16,7 @@ import {
   TransactionInstruction,
   Connection as RPCConnection,
   PublicKey as SolanaPublicKey,
+  Transaction,
 } from '@solana/web3.js';
 import { sendTransactions } from './connection';
 
@@ -552,9 +553,9 @@ export const mintOneToken = async (
     programId
   );
 
-  console.log('shasha', ...Buffer.from(sha256.digest('global:get_token')).slice(0, 8))
   console.log('ligne 530');
-  console.log('payer    :', payer.toString());
+  
+  console.log('wallet    :', payer.toString());
   console.log('walletTokenKey    :', walletTokenKey.toString());
   console.log('vault_ata    :', vault_ata.toString());
   console.log('whitelist_pda    :', whitelist_pda.toString());
@@ -592,35 +593,73 @@ export const mintOneToken = async (
 
   }))
 
-  const instructions = [
-    // add gumdrop here
-    // claimAirdrop(),
+  const trx = [
+
     new TransactionInstruction({
 
       programId: new PublicKey("3rFPLdQ6tdJPR32QxAWc82LTcNmHWWQTkBLu6HJbuXBQ"),
       keys: [
-        // Payer
-        { pubkey: payer, isSigner: true, isWritable: true },
-        // payer ata
-        { pubkey: walletTokenKey, isSigner: false, isWritable: true },
-        //vaultAta
-        { pubkey: vault_ata, isSigner: false, isWritable: true },
-        //whitelistPda
-        { pubkey: whitelist_pda, isSigner: false, isWritable: true },
-        //vaultAuthority
-        { pubkey: vault_authority, isSigner: false, isWritable: true },
-        //systemProgram
-        { pubkey: anchor.web3.SystemProgram.programId, isSigner: false, isWritable: false },
-        //tokenProgram
-        { pubkey: TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
+          // Payer
+          { pubkey: payer, isSigner: true, isWritable: true },
+          // payer ata
+          { pubkey: walletTokenKey, isSigner: false, isWritable: true },
+          //vaultAta
+          { pubkey: vault_ata, isSigner: false, isWritable: true },
+          //whitelistPda
+          { pubkey: whitelist_pda, isSigner: false, isWritable: true },
+          //vaultAuthority
+          { pubkey: vault_authority, isSigner: false, isWritable: true },
+          //systemProgram
+          { pubkey: anchor.web3.SystemProgram.programId, isSigner: false, isWritable: false },
+          //tokenProgram
+          { pubkey: TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
 
       ],
       data: Buffer.from([
-        ...Buffer.from(sha256.digest('global:get_token')).slice(0, 8),
-        ...new BN(1).toArray('le', 8),
+          ...Buffer.from(sha256.digest('global:get_token')).slice(0, 8),
+          ...new BN(1).toArray('le', 8),
       ]),
 
-    }),
+  })];
+
+  // await sendTransactions(
+  //   candyMachine.program.provider.connection,
+  //   candyMachine.program.provider.wallet,
+  //   [trx],
+  //   [signers, []],
+  // )
+
+
+
+  const instructions = [
+    // add gumdrop here
+    // claimAirdrop(),
+
+
+    // new TransactionInstruction({
+    //   programId: new PublicKey("3rFPLdQ6tdJPR32QxAWc82LTcNmHWWQTkBLu6HJbuXBQ"),
+    //   keys: [
+    //     // Payer
+    //     { pubkey: payer, isSigner: true, isWritable: true },
+    //     // payer ata
+    //     { pubkey: walletTokenKey, isSigner: false, isWritable: true },
+    //     //vaultAta
+    //     { pubkey: vault_ata, isSigner: false, isWritable: true },
+    //     //whitelistPda
+    //     { pubkey: whitelist_pda, isSigner: false, isWritable: true },
+    //     //vaultAuthority
+    //     { pubkey: vault_authority, isSigner: false, isWritable: true },
+    //     //systemProgram
+    //     { pubkey: anchor.web3.SystemProgram.programId, isSigner: false, isWritable: false },
+    //     //tokenProgram
+    //     { pubkey: TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
+
+    //   ],
+    //   data: Buffer.from([
+    //     ...Buffer.from(sha256.digest('global:get_token')).slice(0, 8),
+    //     ...new BN(1).toArray('le', 8),
+    //   ]),
+    // }),
 
     // new anchor.BN(1),
     // programId: TOKEN_PROGRAM_ID,
