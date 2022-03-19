@@ -321,15 +321,13 @@ export const mintOneToken = async (
   // start veru
 
   const tokenAccKey = new PublicKey(
-    '7iFHzyW6twPrGoSyuJ2BzYePtpfThxRT6JDeJcF8s1E8',
+    'H2GQ4wnAaCenQHA9RQBxfStZdX6RyE2ZFi4MzQ2q6Spm',
   ); // source ata whitelist token
-  const mintwl = new PublicKey('nftmF6vKrWdGwvmnZ6zt1sMj4UHUUBfRVksxyGib8Wn'); // mint WL
+  const mintwl = new PublicKey('nwUL9Y9aezwd9hawZQRiKwskKp9iwbKPMptXu3eSkXD'); // mint WL
 
   const userWhitelistTokenAccountAddress = (
     await getAtaForMint(mintwl, payer)
   )[0];
-
-  console.log(mintwl.toBase58());
 
   // TODO: since it's in the PDA do we need it to be in the leaf?
   // const leaf = Buffer.from([
@@ -349,29 +347,13 @@ export const mintOneToken = async (
   //   throw new Error('Gumdrop merkle proof does not match');
   // }
 
-  // const [claimStatus, cbump] = await PublicKey.findProgramAddress(
-  //   [
-  //     Buffer.from('ClaimStatus'),
-  //     Buffer.from(new BN(index).toArray('le', 8)),
-  //     distributorKey.toBuffer(),
-  //   ],
-  //   GUMDROP_DISTRIBUTOR_ID,
-  // );
 
   const [walletTokenKey] = await PublicKey.findProgramAddress(
     [payer.toBuffer(), TOKEN_PROGRAM_ID.toBuffer(), mintwl.toBuffer()],
     SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID,
   );
-  console.log('351');
 
-  const accountInfo =
-    await candyMachine.program.provider.connection.getParsedAccountInfo(
-      walletTokenKey,
-    );
-  console.log('354');
 
-  const isAccountInfoExist = accountInfo?.value !== null;
-  console.log('357');
 
   const createATA = (mintwl: PublicKey, payer: PublicKey) => {
     return Token.createAssociatedTokenAccountInstruction(
@@ -383,39 +365,8 @@ export const mintOneToken = async (
       payer,
     );
   };
-  console.log('370');
 
-  const walletKey = payer;
-  console.log('373');
-  const handle = payer.toString();
-  console.log('375');
-  const pin: BN | null = null;
-  // const pin = new BN('NA');
 
-  console.log('375');
-  const chunk = (arr: Buffer, len: number): Array<Buffer> => {
-    const chunks: Array<Buffer> = [];
-    const n = arr.length;
-    let i = 0;
-
-    while (i < n) {
-      chunks.push(arr.slice(i, (i += len)));
-    }
-
-    return chunks;
-  };
-
-  console.log('375');
-
-  // const [secret, pdaSeeds] = await walletKeyOrPda(walletKey, handle, pin, mintwl);
-
-  const pdaSeeds = [];
-
-  console.log('397');
-
-  const secret = walletKey;
-
-  console.log('ligne 375');
 
   // const secret: PublicKey = new SolanaPublicKey(walletTokenKey.toString());
   // const pdaSeeds = []
@@ -442,17 +393,25 @@ export const mintOneToken = async (
   };
 
   // PAS COOL A  REFAIRE
-  const distributor = '62hzURvLFSKt5hKmsvjvGMWveWK57D6HtrQ6SLwTXbSU';
+  // Distrubutor unique pour tous
+  const distributor = 'J2bXWmjqLq54y8htSDHgxwmG7teiTCC2Lm3tV89Hauz6';
+  const handle = payer.toString();
+  const pin: BN | null = null;
+
+  const [secret, pdaSeeds] = await walletKeyOrPda(payer, handle, pin, mintwl);
+
 
   const [distributorKey, distributorInfo] = await fetchDistributor(
     connection,
     distributor,
   );
 
-  console.log('ligne 410');
+
   // PAS COOL A  REFAIRE
-  const index = 0;
-  const amount = 1;
+  // index dynamique
+  const index = 2;
+  // Amout dynamique
+  const amount = 250;
   const [claimStatus, cbump] = await PublicKey.findProgramAddress(
     [
       Buffer.from('ClaimStatus'),
@@ -464,11 +423,11 @@ export const mintOneToken = async (
 
   const temporalSigner =
     distributorInfo.temporal.equals(PublicKey.default) ||
-      secret.equals(walletKey)
-      ? walletKey
+      secret.equals(payer)
+      ? payer
       : distributorInfo.temporal;
 
-  const walletString = walletKey.toString();
+  const walletString = payer.toString();
 
   const proofStr = listOfProof.find(e => e.key === walletString);
 
@@ -481,204 +440,50 @@ export const mintOneToken = async (
         return ret;
       });
 
-  // let trx = await program.rpc.getToken(
-  //   new anchor.BN(1),
-  //   {
-  //     accounts: {
-  //       payer: buyer.publicKey,
-  //       payerAta: buyer_ata.address,
-  //       vaultAta: vault_ata,
-  //       whitelistPda: whitelist_pda,
-  //       vaultAuthority: vault_authority,
-  //       systemProgram: anchor.web3.SystemProgram.programId,
-  //       tokenProgram: TOKEN_PROGRAM_ID,
-  //     },
-  //     signers: [buyer],
-  //   });
+
+  const instructionsGumpDrop = []
+
+  const accountInfo =
+    await candyMachine.program.provider.connection.getParsedAccountInfo(
+      walletTokenKey,
+    );
+
+  const isAccountInfoExist = accountInfo?.value !== null;
+
+  if (!isAccountInfoExist) instructionsGumpDrop.push(createATA(mintwl, payer))
 
 
-  // const claimAirdrop = () => {
-  // let trx = await program.rpc.getToken(new anchor.BN(1), {
-  //   accounts: {
-  //     payer: buyer.publicKey,
-  //     payerAta: buyer_ata.address,
-  //     vaultAta: vault_ata,
-  //     whitelistPda: whitelist_pda,
-  //     vaultAuthority: vault_authority,
-  //     systemProgram: anchor.web3.SystemProgram.programId,
-  //     tokenProgram: TOKEN_PROGRAM_ID,
-  //   },
-  //   signers: [buyer],
-  // });
-  // "3rFPLdQ6tdJPR32QxAWc82LTcNmHWWQTkBLu6HJbuXBQ"
-  //   return new TransactionInstruction({
-  //   programId: GUMDROP_DISTRIBUTOR_ID,
-  //   keys: [
-  //     { pubkey: distributorKey, isSigner: false, isWritable: true },
-  //     { pubkey: claimStatus, isSigner: false, isWritable: true },
-  //     { pubkey: tokenAccKey, isSigner: false, isWritable: true },
-  //     { pubkey: walletTokenKey, isSigner: false, isWritable: true },
-  //     { pubkey: temporalSigner, isSigner: true, isWritable: false },
-  //     { pubkey: walletKey, isSigner: true, isWritable: false }, // payer
-  //     { pubkey: SystemProgram.programId, isSigner: false, isWritable: false },
-  //     { pubkey: TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
-  //   ],
-  //   data: Buffer.from([
-  //     ...Buffer.from(sha256.digest('global:claim')).slice(0, 8),
-  //     ...new BN(cbump).toArray('le', 1),
-  //     ...new BN(index).toArray('le', 8),
-  //     ...new BN(amount).toArray('le', 8),
-  //     ...secret.toBuffer(),
-  //     ...new BN(proof.length).toArray('le', 4),
-  //     ...Buffer.concat(proof),
-  //   ]),
-  // })
-  // };
-  // end veru
 
-  const programId = new PublicKey("3rFPLdQ6tdJPR32QxAWc82LTcNmHWWQTkBLu6HJbuXBQ");
-
-  const [whitelist_pda, _whitelist_pda_bump] = await anchor.web3.PublicKey.findProgramAddress(
-    [Buffer.from('WhiteList'), payer.toBuffer()],
-    programId
-  );
-
-  const [vault_authority, _vault_authority_bump] = await anchor.web3.PublicKey.findProgramAddress(
-    [Buffer.from('vault_authority')],
-    programId
-  );
-
-  const [vault_ata, _vault_ata_bump] = await anchor.web3.PublicKey.findProgramAddress(
-    [Buffer.from('vault_ata'), mintwl.toBuffer()],
-    programId
-  );
-
-  console.log('ligne 530');
-  
-  console.log('wallet    :', payer.toString());
-  console.log('walletTokenKey    :', walletTokenKey.toString());
-  console.log('vault_ata    :', vault_ata.toString());
-  console.log('whitelist_pda    :', whitelist_pda.toString());
-  console.log('vault_authority    :', vault_authority.toString());
-  console.log('isAccountInfoExist    :', isAccountInfoExist);
-
-  //const program = anchor.workspace.Gominola as anchor.Program<Gominola>;
-
-  const program = anchor.workspace.Gominola
-
-  console.log(new TransactionInstruction({
-// this call suck
-    programId: new PublicKey("3rFPLdQ6tdJPR32QxAWc82LTcNmHWWQTkBLu6HJbuXBQ"),
-    keys: [
-      // Payer
-      { pubkey: payer, isSigner: true, isWritable: true },
-      // payer ata
-      { pubkey: walletTokenKey, isSigner: false, isWritable: true },
-      //vaultAta
-      { pubkey: vault_ata, isSigner: false, isWritable: true },
-      //whitelistPda
-      { pubkey: whitelist_pda, isSigner: false, isWritable: true },
-      //vaultAuthority
-      { pubkey: vault_authority, isSigner: false, isWritable: true },
-      //systemProgram
-      { pubkey: anchor.web3.SystemProgram.programId, isSigner: false, isWritable: false },
-      //tokenProgram
-      { pubkey: TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
-
-    ],
-    data: Buffer.from([
-      ...Buffer.from(sha256.digest('global:get_token')).slice(0, 8),
-      ...new BN(1).toArray('le', 8),
-    ]),
-
-  }))
-
-  const trx = [
-
-    new TransactionInstruction({
-
-      programId: new PublicKey("3rFPLdQ6tdJPR32QxAWc82LTcNmHWWQTkBLu6HJbuXBQ"),
+  const getTokenGumdrop = () => {
+    return new TransactionInstruction({
+      programId: GUMDROP_DISTRIBUTOR_ID,
       keys: [
-          // Payer
-          { pubkey: payer, isSigner: true, isWritable: true },
-          // payer ata
-          { pubkey: walletTokenKey, isSigner: false, isWritable: true },
-          //vaultAta
-          { pubkey: vault_ata, isSigner: false, isWritable: true },
-          //whitelistPda
-          { pubkey: whitelist_pda, isSigner: false, isWritable: true },
-          //vaultAuthority
-          { pubkey: vault_authority, isSigner: false, isWritable: true },
-          //systemProgram
-          { pubkey: anchor.web3.SystemProgram.programId, isSigner: false, isWritable: false },
-          //tokenProgram
-          { pubkey: TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
-
+        { pubkey: distributorKey, isSigner: false, isWritable: true },
+        { pubkey: claimStatus, isSigner: false, isWritable: true },
+        { pubkey: tokenAccKey, isSigner: false, isWritable: true },
+        { pubkey: walletTokenKey, isSigner: false, isWritable: true },
+        { pubkey: temporalSigner, isSigner: true, isWritable: false },
+        { pubkey: payer, isSigner: true, isWritable: false }, // payer
+        { pubkey: SystemProgram.programId, isSigner: false, isWritable: false },
+        { pubkey: TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
       ],
       data: Buffer.from([
-          ...Buffer.from(sha256.digest('global:get_token')).slice(0, 8),
-          ...new BN(1).toArray('le', 8),
+        ...Buffer.from(sha256.digest('global:claim')).slice(0, 8),
+        ...new BN(cbump).toArray('le', 1),
+        ...new BN(index).toArray('le', 8),
+        ...new BN(amount).toArray('le', 8),
+        ...secret.toBuffer(),
+        ...new BN(proof.length).toArray('le', 4),
+        ...Buffer.concat(proof),
       ]),
-
-  })];
-
-  // await sendTransactions(
-  //   candyMachine.program.provider.connection,
-  //   candyMachine.program.provider.wallet,
-  //   [trx],
-  //   [signers, []],
-  // )
+    })
+  }
 
 
+
+  instructionsGumpDrop.push(getTokenGumdrop())
 
   const instructions = [
-    // add gumdrop here
-    // claimAirdrop(),
-
-
-    // new TransactionInstruction({
-    //   programId: new PublicKey("3rFPLdQ6tdJPR32QxAWc82LTcNmHWWQTkBLu6HJbuXBQ"),
-    //   keys: [
-    //     // Payer
-    //     { pubkey: payer, isSigner: true, isWritable: true },
-    //     // payer ata
-    //     { pubkey: walletTokenKey, isSigner: false, isWritable: true },
-    //     //vaultAta
-    //     { pubkey: vault_ata, isSigner: false, isWritable: true },
-    //     //whitelistPda
-    //     { pubkey: whitelist_pda, isSigner: false, isWritable: true },
-    //     //vaultAuthority
-    //     { pubkey: vault_authority, isSigner: false, isWritable: true },
-    //     //systemProgram
-    //     { pubkey: anchor.web3.SystemProgram.programId, isSigner: false, isWritable: false },
-    //     //tokenProgram
-    //     { pubkey: TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
-
-    //   ],
-    //   data: Buffer.from([
-    //     ...Buffer.from(sha256.digest('global:get_token')).slice(0, 8),
-    //     ...new BN(1).toArray('le', 8),
-    //   ]),
-    // }),
-
-    // new anchor.BN(1),
-    // programId: TOKEN_PROGRAM_ID,
-    // {
-    //   accounts: {
-    //     payer: buyer.publicKey,
-    //     payerAta: buyer_ata.address,
-    //     vaultAta: vault_ata,
-    //     whitelistPda: whitelist_pda,          
-    //     vaultAuthority: vault_authority,
-    //     systemProgram: anchor.web3.SystemProgram.programId,
-    //     tokenProgram: TOKEN_PROGRAM_ID,
-    //   },
-    //   signers: [buyer],
-    // }),
-    // end gumdrop
-
-
-    
     anchor.web3.SystemProgram.createAccount({
       fromPubkey: payer,
       newAccountPubkey: mint.publicKey,
@@ -843,13 +648,11 @@ export const mintOneToken = async (
         (await candyMachine.program.account.collectionPda.fetch(
           collectionPDA,
         )) as CollectionData;
-      console.log(collectionData);
       const collectionMint = collectionData.mint;
       const collectionAuthorityRecord = await getCollectionAuthorityRecordPDA(
         collectionMint,
         collectionPDA,
       );
-      console.log(collectionMint);
       if (collectionMint) {
         const collectionMetadata = await getMetadata(collectionMint);
         const collectionMasterEdition = await getMasterEdition(collectionMint);
@@ -918,13 +721,20 @@ export const mintOneToken = async (
   );
 
   try {
-    return (
-      await sendTransactions(
-        candyMachine.program.provider.connection,
-        candyMachine.program.provider.wallet,
-        [instructions, cleanupInstructions],
-        [signers, []],
-      )
+
+    // await sendTransactions(
+    //   candyMachine.program.provider.connection,
+    //   candyMachine.program.provider.wallet,
+    //   [instructionsGumpDrop],
+    //   [[]],
+    // ).catch(e => console.error(e)).finally(() => console.log('go next'))
+
+    return (await sendTransactions(
+      candyMachine.program.provider.connection,
+      candyMachine.program.provider.wallet,
+      [instructions, cleanupInstructions],
+      [signers, []],
+    )
     ).txs.map(t => t.txid);
   } catch (e) {
     console.log(e);

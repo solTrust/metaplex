@@ -1,0 +1,29 @@
+[
+    {
+        "handle": "5jYWGcKESxKYFvUDUDFiKN1aMC4YAzt3RLvt5ahYKxxA",
+        "amount": 250,
+        "url": "https://lwus.github.io/metaplex/claim?distributor=J2bXWmjqLq54y8htSDHgxwmG7teiTCC2Lm3tV89Hauz6&method=wallets&handle=5jYWGcKESxKYFvUDUDFiKN1aMC4YAzt3RLvt5ahYKxxA&amount=250&index=0&proof=6qXTRnBWAzGZrabUVT5aBhqadUWNdz1DiX1ySnXeV4kj,2v76XeiD76rJbjUWyfADQtqWKPDaXHYvGo3Dop2k3BGN&pin=NA&tokenAcc=H2GQ4wnAaCenQHA9RQBxfStZdX6RyE2ZFi4MzQ2q6Spm"
+    },
+    {
+        "handle": "C7PEtyoEecXjDkM8rkqpyW75Ueh5uGJ8549S9iLYkTzR",
+        "amount": 250,
+        "url": "https://lwus.github.io/metaplex/claim?distributor=J2bXWmjqLq54y8htSDHgxwmG7teiTCC2Lm3tV89Hauz6&method=wallets&handle=C7PEtyoEecXjDkM8rkqpyW75Ueh5uGJ8549S9iLYkTzR&amount=250&index=1&proof=6ZWtNz4daE1DSh7NwwL4V5VMz6xeM7Tr6wT3tGj5bKxT,2v76XeiD76rJbjUWyfADQtqWKPDaXHYvGo3Dop2k3BGN&pin=NA&tokenAcc=H2GQ4wnAaCenQHA9RQBxfStZdX6RyE2ZFi4MzQ2q6Spm"
+    },
+    {
+        "handle": "GXZJ4BvQzK7JcsEaWzNSVYeLmpZiNB1Kco59uLsDjq8X",
+        "amount": 250,
+        "url": "https://lwus.github.io/metaplex/claim?distributor=J2bXWmjqLq54y8htSDHgxwmG7teiTCC2Lm3tV89Hauz6&method=wallets&handle=GXZJ4BvQzK7JcsEaWzNSVYeLmpZiNB1Kco59uLsDjq8X&amount=250&index=2&proof=7tCzHu1BLjg2kf2VFMFq6zHq7nia8GMStrgF3bwATPEw,3BJ4VZ9Yb2cbAZ7iJGtXwAwxqghgUtRSejiXEPvRCBsP&pin=NA&tokenAcc=H2GQ4wnAaCenQHA9RQBxfStZdX6RyE2ZFi4MzQ2q6Spm"
+    },
+    {
+        "handle": "7eSvqcNvVkTJCJZn4Tf27D7NKj5a2En6tGY4HkiRHbxT",
+        "amount": 250,
+        "url": "https://lwus.github.io/metaplex/claim?
+        distributor=J2bXWmjqLq54y8htSDHgxwmG7teiTCC2Lm3tV89Hauz6&method=wallets&
+        handle=7eSvqcNvVkTJCJZn4Tf27D7NKj5a2En6tGY4HkiRHbxT&
+        amount=250&
+        index=3&
+        proof=GQpcRvrJZFq4T3kc8XEViqA7XNyyRdzH4hKpZYNaAPu8,3BJ4VZ9Yb2cbAZ7iJGtXwAwxqghgUtRSejiXEPvRCBsP&
+        pin=NA&
+        tokenAcc=H2GQ4wnAaCenQHA9RQBxfStZdX6RyE2ZFi4MzQ2q6Spm"
+    }
+]

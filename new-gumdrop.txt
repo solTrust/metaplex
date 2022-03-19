@@ -1,0 +1,7 @@
+solana-keygen grind --starts-with wl:1
+spl-token create-token nwUL9Y9aezwd9hawZQRiKwskKp9iwbKPMptXu3eSkXD --decimals 0
+spl-token mint nwUL9Y9aezwd9hawZQRiKwskKp9iwbKPMptXu3eSkXD 500
+
+
+ ts-node ./js/packages/cli/src/gumdrop-cli.ts create --claim-integration transfer --transfer-mint EnLMjAFgPjgZbQ4WmQvwuDCMyugVE5DMrgTg2SAP8unz 
+   --distribution-method wallets --distribution-list ./whitelist.json -k ../wallet/defi-nft/wallet.json
